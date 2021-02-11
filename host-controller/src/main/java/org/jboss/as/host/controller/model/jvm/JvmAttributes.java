@@ -166,9 +166,7 @@ public class JvmAttributes {
                         }
                     }
                 }
-            })
-            .addAccessConstraint(SensitiveTargetAccessConstraintDefinition.JVM)
-            .build();
+            }).addAccessConstraint(SensitiveTargetAccessConstraintDefinition.JVM).setRestartJVM().build();
 
     public static final SimpleAttributeDefinition STACK_SIZE =
             SimpleAttributeDefinitionBuilder.create(JvmAttributes.JVM_STACK, ModelType.STRING, true)
