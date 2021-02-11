@@ -166,59 +166,59 @@ public class JvmAttributes {
                         }
                     }
                 }
-            }).addAccessConstraint(SensitiveTargetAccessConstraintDefinition.JVM).setRestartJVM().build();
+            }).addAccessConstraint(SensitiveTargetAccessConstraintDefinition.JVM).build();
 
     public static final SimpleAttributeDefinition STACK_SIZE = SimpleAttributeDefinitionBuilder
             .create(JvmAttributes.JVM_STACK, ModelType.STRING, true).setAllowExpression(true).setXmlName(JvmAttributes.SIZE)
-            .setRestartJVM().build();
+            .build();
 
     public static final SimpleAttributeDefinition TYPE = SimpleAttributeDefinitionBuilder
             .create(JvmAttributes.JVM_TYPE, ModelType.STRING, true).setAllowExpression(true)
             .setValidator(new EnumValidator<>(JvmType.class, EnumSet.allOf(JvmType.class)))
-            .addAccessConstraint(SensitiveTargetAccessConstraintDefinition.JVM).setRestartJVM().build();
+            .addAccessConstraint(SensitiveTargetAccessConstraintDefinition.JVM).build();
 
     public static final SimpleAttributeDefinition HEAP_SIZE =
             SimpleAttributeDefinitionBuilder.create(JvmAttributes.JVM_HEAP, ModelType.STRING, true)
             .setAllowExpression(true)
-            .setXmlName(JvmAttributes.SIZE).setRestartJVM()
+            .setXmlName(JvmAttributes.SIZE)
             .build();
 
     public static final SimpleAttributeDefinition MAX_HEAP_SIZE =
             SimpleAttributeDefinitionBuilder.create(JvmAttributes.JVM_MAX_HEAP, ModelType.STRING, true)
             .setAllowExpression(true)
-            .setXmlName(JvmAttributes.MAX_SIZE).setRestartJVM()
+            .setXmlName(JvmAttributes.MAX_SIZE)
             .build();
 
     public static final SimpleAttributeDefinition PERMGEN_SIZE =
             SimpleAttributeDefinitionBuilder.create(JvmAttributes.JVM_PERMGEN, ModelType.STRING, true)
             .setAllowExpression(true)
             .setXmlName(JvmAttributes.SIZE)
-            .setDeprecated(ModelVersion.create(4)).setRestartJVM()
+            .setDeprecated(ModelVersion.create(4))
             .build();
 
     public static final SimpleAttributeDefinition MAX_PERMGEN_SIZE =
             SimpleAttributeDefinitionBuilder.create(JvmAttributes.JVM_MAX_PERMGEN, ModelType.STRING, true)
             .setAllowExpression(true)
             .setXmlName(JvmAttributes.MAX_SIZE)
-            .setDeprecated(ModelVersion.create(4)).setRestartJVM()
+            .setDeprecated(ModelVersion.create(4))
             .build();
 
     public static final SimpleAttributeDefinition DEBUG_ENABLED =
             SimpleAttributeDefinitionBuilder.create(JvmAttributes.JVM_DEBUG_ENABLED, ModelType.BOOLEAN, true)
             .setAllowExpression(false)
-            .addAccessConstraint(SensitiveTargetAccessConstraintDefinition.JVM).setRestartJVM()
+            .addAccessConstraint(SensitiveTargetAccessConstraintDefinition.JVM)
             .build();
 
     public static final SimpleAttributeDefinition DEBUG_OPTIONS =
             SimpleAttributeDefinitionBuilder.create(JvmAttributes.JVM_DEBUG_OPTIONS, ModelType.STRING, true)
             .setAllowExpression(false)
-            .addAccessConstraint(SensitiveTargetAccessConstraintDefinition.JVM).setRestartJVM()
+            .addAccessConstraint(SensitiveTargetAccessConstraintDefinition.JVM)
             .build();
 
     public static final SimpleAttributeDefinition PREFIX =
             SimpleAttributeDefinitionBuilder.create(JvmAttributes.JVM_LAUNCH_COMMAND, ModelType.STRING, true)
                     .setAllowExpression(true)
-                    .setXmlName(JvmAttributes.LAUNUCH_PREFIX).setRestartJVM()
+                    .setXmlName(JvmAttributes.LAUNUCH_PREFIX)
                     .build();
 
     private static final AttributeDefinition[] GLOBAL_ATTRIBUTES = new AttributeDefinition[] {

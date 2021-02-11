@@ -465,11 +465,11 @@ public class ServerOperationResolver {
                     continue;
                 }
                 final ModelNode server = prop.getValue();
-                if (server.hasDefined(JVM) && server.get(JVM).keys().contains(pathName)) {
+               // if (server.hasDefined(JVM) && server.get(JVM).keys().contains(pathName)) {
                     final String serverGroupName = server.require(GROUP).asString();
                     final ServerIdentity groupedServer = new ServerIdentity(localHostName, serverGroupName, serverName);
                     servers.add(groupedServer);
-                }
+                //}
             }
             result = getServerRestartRequiredOperations(servers);
         } else {
