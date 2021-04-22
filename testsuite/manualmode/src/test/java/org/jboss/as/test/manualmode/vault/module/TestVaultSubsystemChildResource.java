@@ -33,27 +33,18 @@ import org.jboss.as.controller.descriptions.NonResolvingResourceDescriptionResol
 import org.jboss.as.controller.registry.ManagementResourceRegistration;
 import org.jboss.dmr.ModelType;
 
-/**
- *
- * @author <a href="mailto:kabir.khan@jboss.com">Kabir Khan</a>
- */
-public class TestVaultSubsystemResourceDescription extends SimpleResourceDefinition {
 
-    public static final PathElement PATH = PathElement.pathElement(ModelDescriptionConstants.SUBSYSTEM, TestVaultExtension.SUBSYSTEM_NAME);
+public class TestVaultSubsystemChildResource extends SimpleResourceDefinition {
 
-    private static final AttributeDefinition ATTR = SimpleAttributeDefinitionBuilder.create("attribute", ModelType.STRING)
+    public static final PathElement PATH = PathElement.pathElement(ModelDescriptionConstants.CHILDREN, TestVaultExtension.CHILDREN);
+
+    private static final AttributeDefinition ATTR = SimpleAttributeDefinitionBuilder.create("attribute1", ModelType.STRING)
             .setAllowExpression(true)
             .setRequired(false)
             .build();
 
-    public TestVaultSubsystemResourceDescription() {
+    public TestVaultSubsystemChildResource() {
         super(PATH, new NonResolvingResourceDescriptionResolver(), new ModelOnlyAddStepHandler(ATTR), new TestVaultRemoveHandler());
-    }
-
-    @Override
-    public void registerOperations(ManagementResourceRegistration resourceRegistration) {
-        super.registerOperations(resourceRegistration);
-        resourceRegistration.registerOperationHandler(TestVaultResolveExpressionHandler.RESOLVE, new TestVaultResolveExpressionHandler());
     }
 
     @Override
@@ -61,8 +52,4 @@ public class TestVaultSubsystemResourceDescription extends SimpleResourceDefinit
         resourceRegistration.registerReadWriteAttribute(ATTR, null, new ModelOnlyWriteAttributeHandler(ATTR));
     }
 
-    @Override
-    public void registerChildren(ManagementResourceRegistration resourceRegistration) {
-        resourceRegistration.registerSubModel(new TestVaultSubsystemChildResource());
-    }
 }

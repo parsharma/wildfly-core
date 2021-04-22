@@ -35,6 +35,7 @@ import org.jboss.as.test.manualmode.vault.module.TestVaultParser;
 import org.jboss.as.test.manualmode.vault.module.TestVaultRemoveHandler;
 import org.jboss.as.test.manualmode.vault.module.TestVaultResolveExpressionHandler;
 import org.jboss.as.test.manualmode.vault.module.TestVaultSubsystemResourceDescription;
+import org.jboss.as.test.manualmode.vault.module.TestVaultSubsystemChildResource;
 import org.jboss.as.test.module.util.TestModule;
 import org.jboss.dmr.ModelNode;
 import org.jboss.dmr.ModelType;
@@ -113,10 +114,15 @@ public class CustomVaultInModuleTestCase {
         attrValue = response.get("result", "attribute");
         Assert.assertEquals(response.toString(), ModelType.EXPRESSION, attrValue.getType());
         Assert.assertEquals(response.toString(), "${VAULT::Testing::Stuff::thing}", attrValue.asString());
-        // TODO uncomment when WFCORE-5305 is resolved
-        //responseHeaders = response.get("response-headers").asString();
-        //Assert.assertTrue(response.toString(), responseHeaders.contains("${VAULT::Testing::Stuff::thing}"));
-        //Assert.assertTrue(response.toString(), responseHeaders.contains("WFLYCTL0479"));
+
+        PathAddress address1 = PathAddress.pathAddress(TestVaultSubsystemResourceDescription.PATH, TestVaultSubsystemChildResource.PATH);
+        op = Util.createEmptyOperation("read-resource", address1);
+        op.get("recursive").set(true);
+        op.get("resolve-expressions").set(true);
+        response = client.execute(op);
+        responseHeaders = response.get("response-headers").asString();
+        Assert.assertTrue(response.toString(), responseHeaders.contains("${VAULT::Testing::Expression::Stuff}"));
+        Assert.assertTrue(response.toString(), responseHeaders.contains("WFLYCTL0479"));
     }
 
     @BeforeClass
@@ -155,7 +161,8 @@ public class CustomVaultInModuleTestCase {
                 .addClass(TestVaultParser.class)
                 .addClass(TestVaultRemoveHandler.class)
                 .addClass(TestVaultResolveExpressionHandler.class)
-                .addClass(TestVaultSubsystemResourceDescription.class);
+                .addClass(TestVaultSubsystemResourceDescription.class)
+                .addClass(TestVaultSubsystemChildResource.class);
 
         ArchivePath path = ArchivePaths.create("/");
         path = ArchivePaths.create(path, "services");
@@ -186,6 +193,10 @@ public class CustomVaultInModuleTestCase {
         final ModelNode addSubsystem = Util.createAddOperation(PathAddress.pathAddress(TestVaultSubsystemResourceDescription.PATH));
         addSubsystem.get("attribute").set("${VAULT::Testing::Stuff::thing}");
         ModelTestUtils.checkOutcome(client.execute(addSubsystem));
+
+        final ModelNode child = Util.createAddOperation(PathAddress.pathAddress(TestVaultSubsystemResourceDescription.PATH, TestVaultSubsystemChildResource.PATH));
+        child.get("attribute1").set("${VAULT::Testing::Expression::Stuff}");
+        ModelTestUtils.checkOutcome(client.execute(child));
     }
 
     private ModelNode createResolveExpressionOp(String expression) {

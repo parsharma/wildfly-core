@@ -34,11 +34,13 @@ import org.jboss.as.controller.parsing.ExtensionParsingContext;
 public class TestVaultExtension implements Extension {
 
     public static final String SUBSYSTEM_NAME = "test-custom-vault";
+    public static final String CHILDREN = "child-test-custom-vault";
 
     @Override
     public void initialize(ExtensionContext context) {
         SubsystemRegistration registration = context.registerSubsystem(SUBSYSTEM_NAME, ModelVersion.create(1));
         registration.registerSubsystemModel(new TestVaultSubsystemResourceDescription());
+        registration.registerSubsystemModel(new TestVaultSubsystemChildResource());
         registration.registerXMLElementWriter(new TestVaultParser());
     }
 
